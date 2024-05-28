@@ -138,11 +138,11 @@ async def handle_message(m: Message):
     #if is_spam and m.sender_id not in [1317173146]:
        # return await m.reply("You are spamming. Please wait a 1 minute and try again.")
     hm = await m.reply("Sending you the media wait...")
-   # count = db.get(f"check_{m.sender_id}")
-  #  if count and int(count) > 5:
-    #    return await hm.edit(
- #           "You are limited now. Please come back after 2 hours or use another account."
-   #     )
+    count = db.get(f"check_{m.sender_id}")
+    if count and int(count) > 100:
+        return await hm.edit(
+            "You are limited now. Please come back after 2 hours or use another account."
+        )
     shorturl = extract_code_from_url(url)
     if not shorturl:
         return await hm.edit("Seems like your link is invalid.")
@@ -294,6 +294,7 @@ Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
         db.set(m.sender_id, time.monotonic(), ex=60)
         db.set(
             f"check_{m.sender_id}",
+            int(count) + 1 if count else 1,
             ex=7200,
         )
 
