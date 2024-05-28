@@ -294,7 +294,6 @@ Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
         db.set(m.sender_id, time.monotonic(), ex=60)
         db.set(
             f"check_{m.sender_id}",
-            int(count) + 1 if count else 1,
             ex=7200,
         )
 
