@@ -134,9 +134,9 @@ async def handle_message(m: Message):
         return await m.reply(
             "Please join @botio_devs then send me the link again."
         )
-    is_spam = db.get(m.sender_id)
-    if is_spam and m.sender_id not in [1317173146]:
-        return await m.reply("You are spamming. Please wait a 1 minute and try again.")
+    #is_spam = db.get(m.sender_id)
+    #if is_spam and m.sender_id not in [1317173146]:
+       # return await m.reply("You are spamming. Please wait a 1 minute and try again.")
     hm = await m.reply("Sending you the media wait...")
     count = db.get(f"check_{m.sender_id}")
     if count and int(count) > 5:
@@ -223,7 +223,7 @@ async def handle_message(m: Message):
             progress_callback=progress_bar,
             caption=f"""
 File Name: `{data['file_name']}`
-Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
+Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
 
 @botio_devs 🔥
 """,
@@ -246,7 +246,7 @@ Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
             download,
             caption=f"""
 File Name: `{data['file_name']}`
-Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
+Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
 
 @botio_devs 
 """,
