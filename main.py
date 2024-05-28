@@ -71,11 +71,11 @@ async def start(m: UpdateNewMessage):
     fileid = db.get(str(text))
     check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
     if not check_if:
-        return await m.reply("Please join @botio_devs then send me the link again.")
+        return await m.reply("Hey Boy 😕\n\n Join My Chanel to Use me......🙁")
     check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
     if not check_if:
         return await m.reply(
-            "Please join @botio_devs then send me the link again."
+            "Hey Boy 😕\n\n Join My Chanel to Use me......😾"
         )
     await bot(
         ForwardMessagesRequest(
@@ -125,14 +125,14 @@ async def handle_message(m: Message):
 
     url = get_urls_from_string(m.text)
     if not url:
-        return await m.reply("Please enter a valid url.")
+        return await m.reply("Hey you\n\n send a vaild link😕..Don't mess with me😎🤏")
     check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
     if not check_if:
-        return await m.reply("Please join @botio_devs then send me the link again.")
+        return await m.reply("Hey Boy 😕\n\n Join My Chanel to Use me......🙃")
     check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
     if not check_if:
         return await m.reply(
-            "Please join @botio_devs then send me the link again."
+            "Hey Boy 😕\n\n Join My Chanel to Use me......🙃."
         )
     #is_spam = db.get(m.sender_id)
     #if is_spam and m.sender_id not in [1317173146]:
@@ -238,17 +238,14 @@ Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
         )
         if not download:
             return await hm.edit(
-                f"Sorry! Download Failed but you can download it from [here]({data['direct_link']}).",
+                f"oh...! found some issues with the link 😭😭\n\n [Here Is The Download Link]({data['direct_link']}) Use It For Manual Downloading 🙃.",
                 parse_mode="markdown",
             )
         file = await bot.send_file(
             PRIVATE_CHAT_ID,
             download,
             caption=f"""
-File Name: `{data['file_name']}`
-Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
-
-@botio_devs 
+**{data['file_name']}**
 """,
             progress_callback=progress_bar,
             thumb=thumbnail if thumbnail else None,
@@ -261,7 +258,7 @@ Direct Link: [Click Here](https://t.me/TeraboxDownloader_l_Bot?start={uuid})
             print(e)
     except Exception:
         return await hm.edit(
-            f"Sorry! Download Failed but you can download it from [here]({data['direct_link']}).",
+            f"oh...! found some issues with the link 😭😭\n\n [Here Is The Download Link]({data['direct_link']}) Use It For Manual Downloading 🙃.",
             parse_mode="markdown",
         )
     try:
