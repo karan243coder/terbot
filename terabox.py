@@ -98,79 +98,41 @@ def extract_surl_from_url(url: str) -> str | None:
         return False
 
 
-def get_data(url: str):
-    r = requests.Session()
-    headersList = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
-        "Connection": "keep-alive",
-        "Cookie": COOKIE,
-        "DNT": "1",
-        "Host": "www.terabox.app",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-        "sec-ch-ua": '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"Windows"',
-    }
+import aiohttp
+import json
 
-    payload = ""
+async def get_details(url):
+    api_url = "https://teraboxdown.com/api/get-data"
+    headers = {"Content-Type": "application/json"}
+    payload = {"url": url}
 
-    response = r.get(url, data=payload, headers=headersList)
-    response = r.get(response.url, data=payload, headers=headersList)
-    logid = find_between(response.text, "dp-logid=", "&")
-    jsToken = find_between(response.text, "fn%28%22", "%22%29")
-    bdstoken = find_between(response.text, 'bdstoken":"', '"')
-    shorturl = extract_surl_from_url(response.url)
-    if not shorturl:
-        return False
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(api_url, headers=headers, data=json.dumps(payload)) as response:
+                response.raise_for_status()  # Raise an exception for HTTP errors
+                data = await response.json()
 
-    reqUrl = f"https://www.terabox.app/share/list?app_id=250528&web=1&channel=0&jsToken={jsToken}&dp-logid={logid}&page=1&num=20&by=name&order=asc&site_referer=&shorturl={shorturl}&root=1"
+                if not data:
+                    raise ValueError("Unable to get download URL...")
 
-    headersList = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9,hi;q=0.8",
-        "Connection": "keep-alive",
-        "Cookie": COOKIE,
-        "DNT": "1",
-        "Host": "www.terabox.app",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-User": "?1",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-        "sec-ch-ua": '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": '"Windows"',
-    }
+    except aiohttp.ClientError as e:
+        print(f"An error occurred: {e}")
+        return None
+    except ValueError as e:
+        print(e)
+        return None
 
-    payload = ""
+    # Extracting necessary details from the response data
+    details = data[0]
+    direct_link = details['resolutions']['Fast Download']
+    file_name = details['title']
+    thumb = details['thumbnail']
 
-    response = r.get(reqUrl, data=payload, headers=headersList)
-
-    if not response.status_code == 200:
-        return False
-    r_j = response.json()
-    if r_j["errno"]:
-        return False
-    if not "list" in r_j and not r_j["list"]:
-        return False
-
-    response = r.head(r_j["list"][0]["dlink"], headers=headersList)
-    direct_link = response.headers.get("location")
+    # Preparing the final data structure
     data = {
-        "file_name": r_j["list"][0]["server_filename"],
-        "link": r_j["list"][0]["dlink"],
+        "file_name": file_name,
         "direct_link": direct_link,
-        "thumb": r_j["list"][0]["thumbs"]["url3"],
-        "size": get_formatted_size(int(r_j["list"][0]["size"])),
-        "sizebytes": int(r_j["list"][0]["size"]),
+        "thumb": thumb,
     }
+
     return data
