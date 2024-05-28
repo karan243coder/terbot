@@ -3,7 +3,6 @@ from urllib.parse import parse_qs, urlparse
 
 import requests
 
-from config import COOKIE
 from tools import get_formatted_size
 
 
@@ -105,6 +104,7 @@ async def get_details(url):
     api_url = "https://teraboxdown.com/api/get-data"
     headers = {"Content-Type": "application/json"}
     payload = {"url": url}
+    print(f"{payloadb}")
 
     try:
         async with aiohttp.ClientSession() as session:
@@ -134,5 +134,6 @@ async def get_details(url):
         "direct_link": direct_link,
         "thumb": thumb,
     }
+    print(f"{data}") 
 
     return data
