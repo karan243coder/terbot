@@ -187,11 +187,6 @@ async def handle_message(m: Message):
         return await hm.edit(
             f"Sorry! File is not supported for now. I can download only .mp4, .mkv and .webm files."
         )
-    if int(data["sizebytes"]) > 524288000 and m.sender_id not in [1317173146]:
-        return await hm.edit(
-            f"Sorry! File is too big. I can download only 500MB and this file is of {data['size']} ."
-        )
-
     start_time = time.time()
     cansend = CanSend()
 
@@ -236,10 +231,9 @@ async def handle_message(m: Message):
             progress_callback=progress_bar,
             caption=f"""
 File Name: `{data['file_name']}`
-Size: **{data["size"]}** 
 Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
 
-@RoldexVerse
+@botio_devs 🔥
 """,
             supports_streaming=True,
             spoiler=True,
@@ -260,10 +254,9 @@ Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
             download,
             caption=f"""
 File Name: `{data['file_name']}`
-Size: **{data["size"]}** 
 Direct Link: [Click Here](https://t.me/teraboxdown_bot?start={uuid})
 
-@RoldexVerse
+@botio_devs 
 """,
             progress_callback=progress_bar,
             thumb=thumbnail if thumbnail else None,
