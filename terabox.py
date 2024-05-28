@@ -1,10 +1,9 @@
 import re
 from urllib.parse import parse_qs, urlparse
-
 import requests
-
 from tools import get_formatted_size
-
+import aiohttp
+import json
 
 def check_url_patterns(url):
     patterns = [
@@ -36,17 +35,7 @@ def check_url_patterns(url):
 
     return False
 
-
 def get_urls_from_string(string: str) -> list[str]:
-    """
-    Extracts URLs from a given string.
-
-    Args:
-        string (str): The input string from which to extract URLs.
-
-    Returns:
-        list[str]: A list of URLs extracted from the input string. If no URLs are found, an empty list is returned.
-    """
     pattern = r"(https?://\S+)"
     urls = re.findall(pattern, string)
     urls = [url for url in urls if check_url_patterns(url)]
@@ -54,21 +43,7 @@ def get_urls_from_string(string: str) -> list[str]:
         return []
     return urls[0]
 
-
 def find_between(data: str, first: str, last: str) -> str | None:
-    """
-    Searches for the first occurrence of the `first` string in `data`,
-    and returns the text between the two strings.
-
-    Args:
-        data (str): The input string.
-        first (str): The first string to search for.
-        last (str): The last string to search for.
-
-    Returns:
-        str | None: The text between the two strings, or None if the
-            `first` string was not found in `data`.
-    """
     try:
         start = data.index(first) + len(first)
         end = data.index(last, start)
@@ -76,17 +51,7 @@ def find_between(data: str, first: str, last: str) -> str | None:
     except ValueError:
         return None
 
-
 def extract_surl_from_url(url: str) -> str | None:
-    """
-    Extracts the surl parameter from a given URL.
-
-    Args:
-        url (str): The URL from which to extract the surl parameter.
-
-    Returns:
-        str: The surl parameter, or False if the parameter could not be found.
-    """
     parsed_url = urlparse(url)
     query_params = parse_qs(parsed_url.query)
     surl = query_params.get("surl", [])
@@ -96,20 +61,16 @@ def extract_surl_from_url(url: str) -> str | None:
     else:
         return False
 
-
-import aiohttp
-import json
-
-def get_data(url):
+async def get_data(url):
     api_url = "https://teraboxdown.com/api/get-data"
     headers = {"Content-Type": "application/json"}
     payload = {"url": url}
-    print(f"{payloadb}")
+    print(f"{payload}")
 
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(api_url, headers=headers, data=json.dumps(payload)) as response:
-                response.raise_for_status()  # Raise an exception for HTTP errors
+                response.raise_for_status()
                 data = await response.json()
 
                 if not data:
@@ -122,18 +83,16 @@ def get_data(url):
         print(e)
         return None
 
-    # Extracting necessary details from the response data
     details = data[0]
     direct_link = details['resolutions']['Fast Download']
     file_name = details['title']
     thumb = details['thumbnail']
 
-    # Preparing the final data structure
     data = {
         "file_name": file_name,
         "direct_link": direct_link,
         "thumb": thumb,
     }
-    print(f"{data}") 
+    print(f"{data}")
 
     return data
