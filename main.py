@@ -178,15 +178,7 @@ async def handle_message(m: Message):
     if not data:
         return await hm.edit("Sorry! API is dead or maybe your link is broken.")
     db.set(m.sender_id, time.monotonic(), ex=60)
-    if (
-        not data["file_name"].endswith(".mp4")
-        and not data["file_name"].endswith(".mkv")
-        and not data["file_name"].endswith(".Mkv")
-        and not data["file_name"].endswith(".webm")
-    ):
-        return await hm.edit(
-            f"Sorry! File is not supported for now. I can download only .mp4, .mkv and .webm files."
-        )
+    
     start_time = time.time()
     cansend = CanSend()
 
