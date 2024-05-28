@@ -174,7 +174,7 @@ async def handle_message(m: Message):
 
         return
 
-    data = get_data(url)
+    data = await get_data(url)
     if not data:
         return await hm.edit("Sorry! API is dead or maybe your link is broken.")
     db.set(m.sender_id, time.monotonic(), ex=60)
