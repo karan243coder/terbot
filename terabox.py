@@ -89,9 +89,9 @@ async def get_data(url):
     thumb = details['thumbnail']
 
     data = {
-        "file_name": file_name,
+        "file_name": {file_name}.mp4,
         "direct_link": direct_link,
-        "thumb": {thumb}.mp4,
+        "thumb": thumb
     }
     print(f"{data}")
 
