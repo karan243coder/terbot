@@ -100,7 +100,7 @@ def extract_surl_from_url(url: str) -> str | None:
 import aiohttp
 import json
 
-async def get_details(url):
+def get_data(url):
     api_url = "https://teraboxdown.com/api/get-data"
     headers = {"Content-Type": "application/json"}
     payload = {"url": url}
