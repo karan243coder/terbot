@@ -47,13 +47,13 @@ Hello! I am a bot to download videos from terabox.
 Send me the terabox link and I will start downloading it.
 Join @RoldexVerse For Updates
 [Source Code](https://github.com/r0ld3x/terabox-downloader-bot) """
-    check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
+    check_if = await is_user_on_chat(bot, "@dumphoga", m.peer_id)
     if not check_if:
-        return await m.reply("Please join @botio_devs then send me the link again.")
-    check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
+        return await m.reply("Please join @dumphoga then send me the link again.")
+    check_if = await is_user_on_chat(bot, "@dumphoga", m.peer_id)
     if not check_if:
         return await m.reply(
-            "Please join @botio_devs then send me the link again."
+            "Please join @dumphoga then send me the link again."
         )
     await m.reply(reply_text, link_preview=False, parse_mode="markdown")
 
@@ -72,7 +72,7 @@ async def start(m: UpdateNewMessage):
     check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
     if not check_if:
         return await m.reply("Hey Boy 😕\n\n Join My Chanel to Use me......🙁")
-    check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
+    check_if = await is_user_on_chat(bot, "@dumphoga", m.peer_id)
     if not check_if:
         return await m.reply(
             "Hey Boy 😕\n\n Join My Chanel to Use me......😾"
@@ -129,7 +129,7 @@ async def handle_message(m: Message):
     check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
     if not check_if:
         return await m.reply("Hey Boy 😕\n\n Join My Chanel to Use me......🙃")
-    check_if = await is_user_on_chat(bot, "@botio_devs", m.peer_id)
+    check_if = await is_user_on_chat(bot, "@dumphoga", m.peer_id)
     if not check_if:
         return await m.reply(
             "Hey Boy 😕\n\n Join My Chanel to Use me......🙃."
